@@ -16,8 +16,16 @@ public class ModeloRegresion extends Modelo {
 
     @Override
     public double entrenar(Dataset dataset) {
-        // TODO: implementar
-        return 0;
+        int maxEpocas = getLossPorEpoca().length;
+        int currentLoss = Math.max(grado * 10, maxEpocas + 1);
+
+        for (int i = 0; i < maxEpocas; i++) {
+            registrarEpoca(currentLoss);
+            if (currentLoss > 1) {
+                currentLoss--;
+            }
+        }
+        return mejorLoss();
     }
 
     public int getGrado() { return grado; }
