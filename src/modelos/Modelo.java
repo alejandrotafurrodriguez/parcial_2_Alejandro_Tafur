@@ -32,7 +32,13 @@ public abstract class Modelo {
      * actualiza el mejor loss pero no agrega más elementos.
      */
     public void registrarEpoca(int loss) {
-        // TODO: implementar
+        if (epocaActual < lossPorEpoca.length) {
+            lossPorEpoca[epocaActual] = loss;
+            epocaActual++;
+        }
+        if (loss < mejorLossRegistrado) {
+            mejorLossRegistrado = loss;
+        }
     }
 
     /**
@@ -40,8 +46,10 @@ public abstract class Modelo {
      * Si no hay épocas, retorna Integer.MAX_VALUE.
      */
     public int mejorLoss() {
-        // TODO: implementar
+        if (epocaActual == 0) {
         return Integer.MAX_VALUE;
+    }
+    return mejorLossRegistrado;
     }
 
     /**
@@ -49,10 +57,11 @@ public abstract class Modelo {
      * No se guarda como atributo.
      */
     public double calcularMetrica(MetricaEvaluacion metrica) {
-        // TODO: implementar
-        return 0;
+        if (metrica == null) {
+        return 0.0;
+        }
+        return metrica.calcular(this, "accuracy");
     }
-
     // Getters encapsulados
     public String getNombre() { return nombre; }
     public int[] getLossPorEpoca() { return lossPorEpoca; }
